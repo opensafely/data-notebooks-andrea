@@ -1,0 +1,2916 @@
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Raw-data-checks-for-Waiting-List-Data---OpenPathways">Raw data checks for Waiting List Data - OpenPathways<a class="anchor-link" href="#Raw-data-checks-for-Waiting-List-Data---OpenPathways">&#182;</a></h1><h3 id="Tables">Tables<a class="anchor-link" href="#Tables">&#182;</a></h3><p>The waiting list data consists of 3 tables:</p>
+<ul>
+<li>WL_ClockStops</li>
+<li>WL_Diagnostics</li>
+<li>WL_OpenPathways</li>
+</ul>
+<h3 id="Background-and-documentation">Background and documentation<a class="anchor-link" href="#Background-and-documentation">&#182;</a></h3><ul>
+<li><a href="https://github.com/opensafely-core/cohort-extractor/issues/783">Github issue</a></li>
+<li><a href="https://docs.google.com/document/d/1kVF7hPhy8vv2_tA2aRv3j36Na9fD8YlE6Mj3KbUFx4o/edit">Background</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1A1h6WGKXzh8Wy4qPMz4W2K7BrAIsSSMC/edit#gid=438381057">Schema description</a></li>
+<li><a href="https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2021/05/Recording-and-Reporting-guidance-April_2021.pdf">Recording and reporting guidelines</a></li>
+</ul>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>The waiting list dataset has been linked to patients in OpenSAFELY-TPP, covering 40% of England's population.</p>
+<p>This notebook focuses on the WL_OpenPathways table, which is expected to represent patients on a waiting list at a given point in time.</p>
+<p>NHS England receives a weekly “Waiting List Minimum Dataset” (WL MDS) that is loaded on to the NCDR.  The waiting list data includes patients/pathways currently subject to Referral to Treatment (RTT) monitoring, as well as those not included.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>This notebook was run on 2023-02-03
+    and reflects the dataset at this date, 
+    but has been filtered to <code>WHERE Week_Ending_Date IS NOT NULL</code>.</strong></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Total-row-count-(Unfiltered-table)">Total row count (Unfiltered table)<a class="anchor-link" href="#Total-row-count-(Unfiltered-table)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p>Total rows: 239029495</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exploration-of-Week_Ending_Date">Exploration of Week_Ending_Date<a class="anchor-link" href="#Exploration-of-Week_Ending_Date">&#182;</a></h2><h3 id="Total-row-counts-by-Week_Ending_Date">Total row counts by Week_Ending_Date<a class="anchor-link" href="#Total-row-counts-by-Week_Ending_Date">&#182;</a></h3><h4 id="Weekly-count-percentiles">Weekly count percentiles<a class="anchor-link" href="#Weekly-count-percentiles">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1660.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3265.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>23190.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4179125.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4861550.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>5030430.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1359388.2738095238
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Counts-by-month">Counts by month<a class="anchor-link" href="#Counts-by-month">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        Month  row_count
+0  2021-05-01    3243030
+1  2021-06-01   14822200
+2  2021-07-01   16854710
+3  2021-08-01   21981670
+4  2021-09-01   18495640
+5  2021-10-01   23652630
+6  2021-11-01   19373670
+7  2021-12-01   19097990
+8  2022-01-01   24784230
+9  2022-02-01   19841410
+10 2022-03-01   20094820
+11 2022-04-01   20846820
+12 2022-05-01    5288410
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Histogram-of-counts-by-month">Histogram of counts by month<a class="anchor-link" href="#Histogram-of-counts-by-month">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXQAAAEBCAYAAABojF4hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4xLjMsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+AADFEAAAUv0lEQVR4nO3dfbBkdX3n8fdnBkSzsgmpmQQEZIiiJiY+kMmIS1SMugE1EiNWYA1PqzuJEcUqt1Zko8SHrGZry6QCIewkskpi0MQgO8ZRYsUsIiphhuWZVSdqZIAsgyi68SnAd/8450JzuXe670xPP/x8v6q6bnef093fb/ftzz19+nd+N1WFJGn+rZp2AZKk8TDQJakRBrokNcJAl6RGGOiS1AgDXZIaMdVAT3JhkjuT3DjCur+X5Nr+9IUk35hEjZI0LzLNcehJng38P+CiqvrpFdzutcDTq+rf77XiJGnOTHULvao+Bdw9eF2SxyX5eJJtSa5I8qQlbnoScPFEipSkObHPtAtYwibgN6rqi0meAZwP/MLCwiSHAYcDn5xSfZI0k2Yq0JM8Gvg3wF8mWbh6v0WrnQh8qKrum2RtkjTrZirQ6XYBfaOqnraLdU4EXjOheiRpbszUsMWq+ibw5SQvB0jnqQvL+/3pBwCfnVKJkjSzpj1s8WK6cH5ikh1JXgm8AnhlkuuAm4DjB25yIvCBcopISXqYqQ5blCSNz0ztcpEk7b6pfSm6Zs2aWrdu3bQeXpLm0rZt2+6qqrVLLZtaoK9bt46tW7dO6+ElaS4l+cfllrnLRZIaYaBLUiMMdElqxNBAT3Jokr9LcnOSm5KcucQ6xyS5Z2B627fsnXIlScsZ5UvRe4E3VNU1SfYHtiX5RFXdvGi9K6rqxeMvUZI0iqFb6FV1R1Vd05//FnALcPDeLkyStDIr2oeeZB3wdOCqJRY/M8l1ST6W5MnL3H5jkq1Jtu7cuXPFxUqSljdyoPdT2/4V8Pp+Eq1B1wCHVdVTgXOBS5e6j6raVFXrq2r92rVLjouXJO2mkQ4sSrIvXZi/v6ouWbx8MOCrakuS85Osqaq7xleqpGHWnfXRXS7/yrteNKFKNA2jjHIJ8B7glqp69zLrHNivR5IN/f1+bZyFSpJ2bZQt9KOBk4EbklzbX3c28FiAqroAOAF4dZJ7ge8AJzrFrSRN1tBAr6pPAxmyznnAeeMqSpK0ch4pKkmNMNAlqREGuiQ1wkCXpEZM7R9cSCvh+GppOLfQJakRBrokNcJAl6RGGOiS1AgDXZIaYaBLUiMMdElqhIEuSY0w0CWpEQa6JDXCQJekRhjoktQIJ+dqnJNaST843EKXpEYY6JLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRjkOX9AOl5WMz3EKXpEYY6JLUCANdkhoxNNCTHJrk75LcnOSmJGcusU6S/EGS7UmuT3Lk3ilXkrScUb4UvRd4Q1Vdk2R/YFuST1TVzQPrHAcc0Z+eAfxR/1OSNCFDA72q7gDu6M9/K8ktwMHAYKAfD1xUVQV8LsmPJDmov60kjaTlESiTsKJ96EnWAU8Hrlq06GDg1oHLO/rrFt9+Y5KtSbbu3LlzZZVKknZp5HHoSR4N/BXw+qr65u48WFVtAjYBrF+/vnbnPiRN17CtaHBLelpG2kJPsi9dmL+/qi5ZYpXbgEMHLh/SXydJmpBRRrkEeA9wS1W9e5nVNgOn9KNdjgLucf+5JE3WKLtcjgZOBm5Icm1/3dnAYwGq6gJgC/BCYDvwbeD08Zcq7V1+Iad5N8ool08DGbJOAa8ZV1GSpJXzSFFJaoSzLUoT4i4d7W1uoUtSIwx0SWqEgS5JjXAfuvaY+4al2eAWuiQ1wkCXpEYY6JLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGGOiS1Ajncpki50CRNE5uoUtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGGOiS1AgDXZIaYaBLUiMMdElqxNBAT3JhkjuT3LjM8mOS3JPk2v70lvGXKUkaZpS5XN4LnAdctIt1rqiqF4+lIknSbhm6hV5VnwLunkAtkqQ9MK596M9Mcl2SjyV58nIrJdmYZGuSrTt37hzTQ0uSYDyBfg1wWFU9FTgXuHS5FatqU1Wtr6r1a9euHcNDS5IW7PF86FX1zYHzW5Kcn2RNVd21p/c9bc5XLmme7PEWepIDk6Q/v6G/z6/t6f1KklZm6BZ6kouBY4A1SXYA5wD7AlTVBcAJwKuT3At8BzixqmqvVSxJWtLQQK+qk4YsP49uWKMkaYo8UlSSGmGgS1IjDHRJaoSBLkmNMNAlqREGuiQ1wkCXpEYY6JLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGGOiS1AgDXZIaYaBLUiMMdElqhIEuSY0w0CWpEQa6JDXCQJekRhjoktQIA12SGmGgS1IjDHRJaoSBLkmNMNAlqRFDAz3JhUnuTHLjMsuT5A+SbE9yfZIjx1+mJGmYUbbQ3wscu4vlxwFH9KeNwB/teVmSpJUaGuhV9Sng7l2scjxwUXU+B/xIkoPGVaAkaTTj2Id+MHDrwOUd/XUPk2Rjkq1Jtu7cuXMMDy1JWjDRL0WralNVra+q9WvXrp3kQ0tS88YR6LcBhw5cPqS/TpI0QeMI9M3AKf1ol6OAe6rqjjHcryRpBfYZtkKSi4FjgDVJdgDnAPsCVNUFwBbghcB24NvA6XurWEnS8oYGelWdNGR5Aa8ZW0WSpN3ikaKS1AgDXZIaYaBLUiMMdElqhIEuSY0w0CWpEQa6JDXCQJekRhjoktQIA12SGmGgS1IjDHRJaoSBLkmNMNAlqREGuiQ1wkCXpEYY6JLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGGOiS1AgDXZIaYaBLUiMMdElqxEiBnuTYJJ9Psj3JWUssPy3JziTX9qdXjb9USdKu7DNshSSrgT8EXgDsAK5Osrmqbl606ger6oy9UKMkzZV1Z310l8u/8q4X7ZXHHWULfQOwvaq+VFXfBz4AHL9XqpEk7bZRAv1g4NaByzv66xZ7WZLrk3woyaFjqU6SNLJxfSn6EWBdVT0F+ATwvqVWSrIxydYkW3fu3Dmmh5YkwWiBfhswuMV9SH/dA6rqa1X1vf7inwA/u9QdVdWmqlpfVevXrl27O/VKkpYxSqBfDRyR5PAkjwBOBDYPrpDkoIGLLwFuGV+JkqRRDB3lUlX3JjkDuAxYDVxYVTcleRuwtao2A69L8hLgXuBu4LS9WLMkaQlDAx2gqrYAWxZd95aB828C3jTe0iRJK+GRopLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGjHRg0awZNtcw7L35hiVpVrmFLkmNMNAlqREGuiQ1wkCXpEYY6JLUCANdkhphoEtSIwx0SWqEgS5JjTDQJakRBrokNcJAl6RGGOiS1AgDXZIaYaBLUiMMdElqhIEuSY0w0CWpEQa6JDXCQJekRowU6EmOTfL5JNuTnLXE8v2SfLBfflWSdeMuVJK0a0MDPclq4A+B44CfAk5K8lOLVnsl8PWqejzwe8DvjrtQSdKujbKFvgHYXlVfqqrvAx8Ajl+0zvHA+/rzHwKelyTjK1OSNEyqatcrJCcAx1bVq/rLJwPPqKozBta5sV9nR3/5H/p17lp0XxuBjf3FJwKfH1Mfa4C7hq41++xjtrTQx7z3MO/1LxhnH4dV1dqlFuwzpgcYSVVtAjaN+36TbK2q9eO+30mzj9nSQh/z3sO8179gUn2MssvlNuDQgcuH9NctuU6SfYAfBr42jgIlSaMZJdCvBo5IcniSRwAnApsXrbMZOLU/fwLwyRq2L0eSNFZDd7lU1b1JzgAuA1YDF1bVTUneBmytqs3Ae4A/TbIduJsu9Cdp7LtxpsQ+ZksLfcx7D/Ne/4KJ9DH0S1FJ0nzwSFFJaoSBLkmNMNC1WzxwTOPi79L4zE2gJ3likrmpdzlJ/l2Sp/bn5/kXee5fC82MBwZnzOt7YlbyaeoFDJPkBUmuAl7FHNS7nCTPT3IF8PvA0wHmcWhnkhcl+Wvg7UmOnnY9uyPJLyc5N8mPTruWPdH38fZp17G7+kn/LgP+W5KXwvy9J2YtnyZ6pOio+r/S+wBvBk4C3lhVlwwun4cXvu/jkXTz3PwY8A66eW9+qF++uqrum16FK5PkZ4FzgN8G/jVwapIjquq9SVZV1f1TLXCI/vV4KfA7wP7A/0ry4Vmve1DfwyrgdOAs4LAkf1NVV0y3stH09e8L/BfgmXQT+R0CvDzJjVX1xWnWN4pZzqep/0VZSnX+Bbgf+NDCk5XkWUn2nW51o+v7+A7w/qo6pqouAz4DnNwvn5sw7z0fuKKqtgD/E/gn4HVJfriq7p/1j8v9m+xLwM8DZwK/Rhcmc6P/nboP2E73Se83gbnZSu/r/z7wceA5/XEsnwH+BfjyVIsb0Szn00yNQ0/yOuBngKuralOSA4F3AQWsB74CfB24vKreM6tb6gN9/H1V/fHA9auBo+i2rt5aVbdOqcSRLO4jyQbgz+gmXvt6kjcDvwB8tqrOnmaty0lyKnB7VX2iv7xPVd3bn/8LujA5vw+ZmTXwWlxVVX8y+Luf5Grggv49MZOflBbXP3D9C4HzgDuBTwHbquqDs/jenot8qqqZOAGnAZ8DjgUuB34LOAD4ZeD9wJOA0O2y+Cjw2GnXPGIfZwM/MbD8Z+imU9h/2rWusI//TLfb6Fzgr4ErgP8B/CJwPvCvpl3zovoPoJvK+Q7gemB1f/0qHtyQORr4W+DIRbfNtOsf8lq8CXjcwPLjgJuAA6Zd64j1nw08vl+2AXjCQB+XAeumXfMIPcxkPs3SLpfnAb9bVR8H3gDsB/x6VV0KbKyq/1PdM3s98A26j2izaHEfj6D7aA9AVd0AfJfJT4+wUov7eCRwSlW9lu5j/tuq6nS6Xh5VVf88vVIfrqq+DvwN8JPANuAtA8uq/3klcC1wXJIn9dM7P7B8hiz1WrxiYWFVfQy4BdiYZP8kL59Omcta6j3xCoCq+vuq+kK/3i3ATuDeqVS5a3ORT1MP9IGhPv8beDFAVW0FrgQOT3L0orA4FXgU3UebmbGLPj4HHJzk5/v1QrcV8shZ3Oc85PV4QpJnVdVXq9+FAbwI+IfJV7q8gef1oqr6Bt0niF9Jclh1+/pXD/T5+3RbvJfTfQKZmaFzu3gtPkv3OzU4yuiNwDuBLwIHTrLO5Qx5TzxmiVFSp9ENGJiZmVrnLZ+mEuiD4zXrwf19VwKrkjy7v3wj3cflx/S3eVmS64CfAF5dVd+dYMlLWkEftwMH9esVXXD886xsCa6wjwP72zw7yeXAEcAFEyx3SYt6WNgC/27/82rgY3SjW6iq+/pg/3G6/befBJ5WVe8YvP2kLf5DsoL3xuPp/mhdSrf76NzJVPxQK6z/dh6s/5R0/yTncLr39ncmVPLD7MFrMBP5NLFAT7Kh/1Jh8EkafCN+kW4/4K/2w/l2AD9O9yIDfAH4jao6par+76TqXmw3+zgQWDdwN/+xqi6cUMlLGsPr8RXgN6vqpbXoP1NNyi56SB5+kMd5wOOTPDnJ2iSH0/0HmddW1Uuq6o7JVf5QfR9/DLwxydqB61f3Z5d7Ldb1y+8BzqiqX6mq2ydY+kKdu1P/gTz4u3Q93W6LU6f13t6D12Cm8mkigZ7k9cCHgd9Kclx/3Wp4yBvxW3RftO1Hd6DBvnRfOtzVr3dDVX12EvUuZw/7eOBjZE15RMWYXo+vVtVNk659wZAeqt8Cf1SSRy/U269/A11fB/Rb6l+dTgddvUneSTe16pXAkcA5/ScH6sFhrbv8naqqnTWF8dtjqH/hd+naqvrMpOuHsfYw9XyiL2QS3xAfTzdm9mV0Q3oWL38r8Jd03xQfBLyXbj/bf6cfnTALJ/uYnT5G6OEc4BLgKf3lk4B/BP4rsO+06+9rWg2cwYOjPA4GtjIwymOWX4t5r7+VHh7Sz156kn6pf5KOGnjSVtN9O78FeF1//Sq6YXx/zkOHYa1iBob12cfs9DGGHo4CDp+h1+Ln+ss/2v/cr/95KbC+P/+UWXst5r3+VnpYtrcxP1EHAR+h+2jyZrphSL/YL1sY+/s84DpgzRK3XzXtJ8Q+ZquPMfQwE1tQy/Txbxets3/fx2Nm7bWY9/pb6WFoj2N+wn4J+E8Dl38d+PDiJ4Xuo8pb+8sb+p8zczCHfcxOHy30sIs+Ll20zvOAP+/PPxo4Ylb6mPf6W+lh2GmPvxTthxwdk2Q/uqPu/nRg8d10fwUfGD1R3Zdu76D7Nvke4Mhk+of52sfs9NFCD319w/q4uV9vYf6PA4Bbk5xOdzTx02Cqwyjnuv6+trnvYSV2a7bFfqzmgXT7lu6nO7DkPwBnVtUdSfatbvKag+ieIOrByZseR3fI+JXA66s7cnIq7GN2+mihB9jtPhaOKjye7gjK9wG/WlXXW//KtdDDbtuNjy0Lc2I8Afizhevo5vi4ZNE6HwGe359f+OLhx4DnTvujiX3MTh8t9LCHfazpf54EnGD9P9g97Mlp5C30fozv24HVSbbQzYd9H3RjNZOcCdye5DlVdXmSR9DNy/CFJL8DvDjJc6vqTrqZ1abCPmanjxZ6gLH18eyqutj6f3B7GIeR9qEneQ7dBEcH0M3D/Ha6yWeem25KVarbj/nbdGM2oRtOdhrdfqv96f4S3j3G2lfMPmanjxZ6gLH2cc9EC+/Ne/3QRg9jM+LHmGcBJw9cPh94Nd0Tsq2/bhXdfqu/oPunARuAi+jmyJj6RxH7mK0+WuihhT7mvf5WehjbczHiE/ZDdIe8Lux7egXwzv78tXTzYUA3yfsHpt2Ufcx+Hy300EIf815/Kz2M6zTSLpeq+nZVfa8enNfgBXT7n6D77zs/me4fB19M99FnZqYgHWQfs6OFHmD++5j3+qGNHsZlRcMW+y8eim6Wsc391d+i+w8kPw18uapug9ket2kfs6OFHmD++5j3+qGNHvbUSg8sup/uP3bfBTyl/6v3ZuD+qvr0wpM1B+xjdrTQA8x/H/NeP7TRw55Z6T4aukmO7gc+Dbxy2vuMdvdkH7NzaqGHFvqY9/pb6WFPTguTG40sySHAycC7q+p7K/8TMhvsY3a00APMfx/zXj+00cOeWHGgS5Jm09T/SbQkaTwMdElqhIEuSY0w0CWpEQa6JDXCQJekRhjoktSI/w+tax5mqaTHUAAAAABJRU5ErkJggg==
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-patients-by-week">Number of patients by week<a class="anchor-link" href="#Number-of-patients-by-week">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1535.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2980.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>21785.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3196365.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3644410.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3758705.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1026515.9523809524
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-referral-identifiers-by-week">Number of referral identifiers by week<a class="anchor-link" href="#Number-of-referral-identifiers-by-week">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1645.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3260.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>22695.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3558205.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4239725.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4403745.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1184926.011904762
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-pathway-IDs-by-week">Number of pathway IDs by week<a class="anchor-link" href="#Number-of-pathway-IDs-by-week">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1645.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3265.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>22720.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4046460.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4691810.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4859990.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1311205.9523809524
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Extract-latest-record-for-each-individual">Extract latest record for each individual<a class="anchor-link" href="#Extract-latest-record-for-each-individual">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Most-common-maximum-dates">Most common maximum dates<a class="anchor-link" href="#Most-common-maximum-dates">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Max_Ending_Date</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>214</th>
+      <td>2022-05-01</td>
+      <td>5057980</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>2022-04-24</td>
+      <td>334760</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>2021-09-05</td>
+      <td>268110</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>2022-03-06</td>
+      <td>257070</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>2022-03-27</td>
+      <td>254450</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>2021-08-08</td>
+      <td>251610</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>2022-02-20</td>
+      <td>246900</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>2021-09-12</td>
+      <td>233540</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>2022-01-30</td>
+      <td>214260</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>2022-02-27</td>
+      <td>209330</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Referral-request-received-date">Referral request received date<a class="anchor-link" href="#Referral-request-received-date">&#182;</a></h2><h3 id="Number-of-pathways-by-referral-year">Number of pathways by referral year<a class="anchor-link" href="#Number-of-pathways-by-referral-year">&#182;</a></h3><p>Using pathways that ended on 2022-05-01.
+Restricted to referral years &gt;=1999.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1999</td>
+      <td>18600</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2000</td>
+      <td>1980</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2001</td>
+      <td>2540</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2002</td>
+      <td>2810</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2003</td>
+      <td>3010</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2004</td>
+      <td>3360</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2005</td>
+      <td>4100</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2006</td>
+      <td>5570</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2007</td>
+      <td>13540</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2008</td>
+      <td>12450</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2009</td>
+      <td>15540</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2010</td>
+      <td>34390</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2011</td>
+      <td>22520</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2012</td>
+      <td>27790</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2013</td>
+      <td>39050</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2014</td>
+      <td>61600</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2015</td>
+      <td>83850</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2016</td>
+      <td>107780</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2017</td>
+      <td>156260</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2018</td>
+      <td>217130</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2019</td>
+      <td>341150</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2020</td>
+      <td>442110</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2021</td>
+      <td>1695240</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2022</td>
+      <td>1760690</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Referral_to_Treatment-start-date">Referral_to_Treatment start date<a class="anchor-link" href="#Referral_to_Treatment-start-date">&#182;</a></h2><h3 id="Number-of-pathways-by-RTT-year">Number of pathways by RTT year<a class="anchor-link" href="#Number-of-pathways-by-RTT-year">&#182;</a></h3><p>Using pathways that ended on 2022-05-01.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2007.0</td>
+      <td>2300</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2008.0</td>
+      <td>550</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2009.0</td>
+      <td>1040</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2010.0</td>
+      <td>1430</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2011.0</td>
+      <td>1850</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2012.0</td>
+      <td>2450</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2013.0</td>
+      <td>3540</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2014.0</td>
+      <td>5010</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2015.0</td>
+      <td>6690</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2016.0</td>
+      <td>9590</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2017.0</td>
+      <td>15370</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2018.0</td>
+      <td>23610</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2019.0</td>
+      <td>43730</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2020.0</td>
+      <td>99130</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2021.0</td>
+      <td>1167060</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2022.0</td>
+      <td>1678050</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Current-Pathway-Period-Start-date">Current Pathway Period Start date<a class="anchor-link" href="#Current-Pathway-Period-Start-date">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-pathways-by-Current-Pathway-year">Number of pathways by Current Pathway year<a class="anchor-link" href="#Number-of-pathways-by-Current-Pathway-year">&#182;</a></h3><p>Using pathways that ended on 2022-05-01</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1999.0</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2000.0</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2001.0</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2002.0</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2003.0</td>
+      <td>280</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2004.0</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2005.0</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2006.0</td>
+      <td>1860</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2007.0</td>
+      <td>4530</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2008.0</td>
+      <td>7260</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2009.0</td>
+      <td>6990</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2010.0</td>
+      <td>8380</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2011.0</td>
+      <td>10660</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2012.0</td>
+      <td>12750</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2013.0</td>
+      <td>20050</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2014.0</td>
+      <td>39460</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2015.0</td>
+      <td>51020</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2016.0</td>
+      <td>64760</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2017.0</td>
+      <td>93120</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2018.0</td>
+      <td>132610</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2019.0</td>
+      <td>194240</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2020.0</td>
+      <td>232230</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2021.0</td>
+      <td>584010</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2022.0</td>
+      <td>435720</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Frequency-distributions">Frequency distributions<a class="anchor-link" href="#Frequency-distributions">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Waiting_List_Type">Waiting_List_Type<a class="anchor-link" href="#Waiting_List_Type">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Waiting_List_Type</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>ORTT</td>
+      <td>100698040</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>ONON</td>
+      <td>92918590</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>IRTT</td>
+      <td>21350470</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>INON</td>
+      <td>12031570</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PTLO</td>
+      <td>9308150</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>PTLI</td>
+      <td>2228860</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OTHR</td>
+      <td>136910</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PTLN</td>
+      <td>100650</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>PLTO</td>
+      <td>94860</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>None</td>
+      <td>46030</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>RTTO</td>
+      <td>41450</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>PLTI</td>
+      <td>28650</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>PTI</td>
+      <td>12920</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>PTL0</td>
+      <td>9360</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>RTTI</td>
+      <td>9240</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>PTL</td>
+      <td>6780</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>PTO</td>
+      <td>2910</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NULL</td>
+      <td>2480</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>PTL1</td>
+      <td>1560</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Priority_Type_Code">Priority_Type_Code<a class="anchor-link" href="#Priority_Type_Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PRIORITY_TYPE_CODE</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>185411320</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2</td>
+      <td>30533080</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>16262030</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>None</td>
+      <td>1994660</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1841480</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>U</td>
+      <td>1523670</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td></td>
+      <td>854960</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>R</td>
+      <td>232390</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>4</td>
+      <td>157170</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>E</td>
+      <td>65060</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>58600</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>5</td>
+      <td>56170</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>X</td>
+      <td>18870</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>C</td>
+      <td>16300</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Z</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7</td>
+      <td>1120</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>6</td>
+      <td>620</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>N</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Inclusion-on-Cancer-PTL">Inclusion on Cancer PTL<a class="anchor-link" href="#Inclusion-on-Cancer-PTL">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Inclusion_on_Cancer_PTL</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7</th>
+      <td>No</td>
+      <td>131974930</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>fal</td>
+      <td>50074500</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>N</td>
+      <td>41644510</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>None</td>
+      <td>5235930</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Yes</td>
+      <td>2610420</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>UKN</td>
+      <td>2283090</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td></td>
+      <td>1738810</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Y</td>
+      <td>1500040</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>tru</td>
+      <td>952600</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>xxx</td>
+      <td>561830</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>UNK</td>
+      <td>271720</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>XX</td>
+      <td>181110</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Outcome-of-Attendance-Code">Outcome of Attendance Code<a class="anchor-link" href="#Outcome-of-Attendance-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>OUTCOME_OF_ATTENDANCE_CODE</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>None</td>
+      <td>130054490</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>71775970</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2</td>
+      <td>24425370</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>6836320</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>5</td>
+      <td>3172180</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td></td>
+      <td>1242760</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>844470</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>4</td>
+      <td>535520</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>9</td>
+      <td>71020</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>*</td>
+      <td>24720</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>6</td>
+      <td>14380</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>D</td>
+      <td>9160</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>P</td>
+      <td>8950</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>X</td>
+      <td>6130</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>7</td>
+      <td>5860</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>C</td>
+      <td>1800</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Proposed-Procedure-Opcs-code">Proposed Procedure Opcs code<a class="anchor-link" href="#Proposed-Procedure-Opcs-code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Proposed_Procedure_Opcs_Code</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2738</th>
+      <td>None</td>
+      <td>209172770</td>
+    </tr>
+    <tr>
+      <th>6269</th>
+      <td>H229</td>
+      <td>2648880</td>
+    </tr>
+    <tr>
+      <th>7002</th>
+      <td>C751</td>
+      <td>1651350</td>
+    </tr>
+    <tr>
+      <th>4304</th>
+      <td>G459</td>
+      <td>1481700</td>
+    </tr>
+    <tr>
+      <th>8489</th>
+      <td></td>
+      <td>993010</td>
+    </tr>
+    <tr>
+      <th>9761</th>
+      <td>H22</td>
+      <td>691640</td>
+    </tr>
+    <tr>
+      <th>9355</th>
+      <td>C712</td>
+      <td>624280</td>
+    </tr>
+    <tr>
+      <th>7735</th>
+      <td>J183</td>
+      <td>515740</td>
+    </tr>
+    <tr>
+      <th>1467</th>
+      <td>W401</td>
+      <td>425920</td>
+    </tr>
+    <tr>
+      <th>10050</th>
+      <td>S069</td>
+      <td>413500</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Main-Specialty-Code">Main Specialty Code<a class="anchor-link" href="#Main-Specialty-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MAIN_SPECIALTY_CODE</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>57</th>
+      <td>None</td>
+      <td>185688980</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>130</td>
+      <td>6628630</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>110</td>
+      <td>4476690</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>100</td>
+      <td>4227970</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>120</td>
+      <td>3673530</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>301</td>
+      <td>3230500</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>502</td>
+      <td>2984600</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>101</td>
+      <td>2775360</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>320</td>
+      <td>2607690</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>330</td>
+      <td>2418210</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Activity-Treatment-Activity-Code">Activity Treatment Activity Code<a class="anchor-link" href="#Activity-Treatment-Activity-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ACTIVITY_TREATMENT_FUNCTION_CODE</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>51</th>
+      <td>130</td>
+      <td>27715200</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>110</td>
+      <td>18834860</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>120</td>
+      <td>15039660</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>301</td>
+      <td>14669680</td>
+    </tr>
+    <tr>
+      <th>299</th>
+      <td>502</td>
+      <td>13824770</td>
+    </tr>
+    <tr>
+      <th>239</th>
+      <td>320</td>
+      <td>12511110</td>
+    </tr>
+    <tr>
+      <th>252</th>
+      <td>101</td>
+      <td>12200390</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>330</td>
+      <td>11416220</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>100</td>
+      <td>9815570</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>410</td>
+      <td>7986390</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Procedure-Priority-Code">Procedure Priority Code<a class="anchor-link" href="#Procedure-Priority-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Procedure_Priority_Code</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>48</th>
+      <td>None</td>
+      <td>187562870</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>P4</td>
+      <td>20734750</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>P3</td>
+      <td>11433780</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>P0</td>
+      <td>7249340</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>P2</td>
+      <td>6170010</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td></td>
+      <td>2210050</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>4</td>
+      <td>1270870</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>U</td>
+      <td>997760</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>3</td>
+      <td>404480</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>P1</td>
+      <td>215430</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Diagnostic-Priority-Code">Diagnostic Priority Code<a class="anchor-link" href="#Diagnostic-Priority-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Diagnostic_Priority_Code</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>None</td>
+      <td>230909810</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>D0</td>
+      <td>2974900</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td></td>
+      <td>2398140</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>D3</td>
+      <td>1427830</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>D2</td>
+      <td>548870</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>D4</td>
+      <td>437120</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>P0</td>
+      <td>169830</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>D6</td>
+      <td>54410</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3</td>
+      <td>31720</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>4</td>
+      <td>23580</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Outpatient-Priority-Code">Outpatient Priority Code<a class="anchor-link" href="#Outpatient-Priority-Code">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Outpatient_Priority_Code</th>
+      <th>row_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>None</td>
+      <td>238940450</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>62870</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>P0</td>
+      <td>13060</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>P3</td>
+      <td>4930</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>00</td>
+      <td>3880</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>O0</td>
+      <td>1910</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>P4</td>
+      <td>1180</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>P2</td>
+      <td>840</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>270</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3</td>
+      <td>60</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Date-comparisons">Date comparisons<a class="anchor-link" href="#Date-comparisons">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-referral-date-and-Week_Ending_Date">Compare referral date and Week_Ending_Date<a class="anchor-link" href="#Compare-referral-date-and-Week_Ending_Date">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="Comparison-of-column-values">Comparison of column values<a class="anchor-link" href="#Comparison-of-column-values">&#182;</a></h3>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>filtered on Week_Ending_Date IS NOT NULL AND REFERRAL_REQUEST_RECEIVED_DATE IS NOT NULL</strong></p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparison</th>
+      <th>median difference (days)</th>
+      <th>row_count</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Week_Ending_Date &lt; REFERRAL_REQUEST_RECEIVED_DATE</td>
+      <td>50.5</td>
+      <td>1424270</td>
+      <td>0.6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Week_Ending_Date = REFERRAL_REQUEST_RECEIVED_DATE</td>
+      <td>0.0</td>
+      <td>52040</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Week_Ending_Date &gt; REFERRAL_REQUEST_RECEIVED_DATE</td>
+      <td>3693.0</td>
+      <td>226434650</td>
+      <td>99.4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-RTT-date-and-Week_Ending_Date">Compare RTT date and Week_Ending_Date<a class="anchor-link" href="#Compare-RTT-date-and-Week_Ending_Date">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="Comparison-of-column-values">Comparison of column values<a class="anchor-link" href="#Comparison-of-column-values">&#182;</a></h3>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>filtered on Week_Ending_Date IS NOT NULL AND REFERRAL_TO_TREATMENT_PERIOD_START_DATE IS NOT NULL</strong></p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparison</th>
+      <th>median difference (days)</th>
+      <th>row_count</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Week_Ending_Date &lt; REFERRAL_TO_TREATMENT_PERIOD_START_DATE</td>
+      <td>27</td>
+      <td>118820</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Week_Ending_Date = REFERRAL_TO_TREATMENT_PERIOD_START_DATE</td>
+      <td>0</td>
+      <td>45730</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Week_Ending_Date &gt; REFERRAL_TO_TREATMENT_PERIOD_START_DATE</td>
+      <td>2207</td>
+      <td>137156220</td>
+      <td>99.9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-Current-Pathway-Period-start-date-and-Week_Ending_Date">Compare Current Pathway Period start date and Week_Ending_Date<a class="anchor-link" href="#Compare-Current-Pathway-Period-start-date-and-Week_Ending_Date">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="Comparison-of-column-values">Comparison of column values<a class="anchor-link" href="#Comparison-of-column-values">&#182;</a></h3>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>filtered on Week_Ending_Date IS NOT NULL AND Current_Pathway_Period_Start_Date IS NOT NULL</strong></p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparison</th>
+      <th>median difference (days)</th>
+      <th>row_count</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Week_Ending_Date &lt; Current_Pathway_Period_Start_Date</td>
+      <td>32</td>
+      <td>45900</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Week_Ending_Date = Current_Pathway_Period_Start_Date</td>
+      <td>0</td>
+      <td>12810</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Week_Ending_Date &gt; Current_Pathway_Period_Start_Date</td>
+      <td>3454</td>
+      <td>85958380</td>
+      <td>99.9</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-Due-Date-and-Week_Ending-Date">Compare Due Date and Week_Ending Date<a class="anchor-link" href="#Compare-Due-Date-and-Week_Ending-Date">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="Comparison-of-column-values">Comparison of column values<a class="anchor-link" href="#Comparison-of-column-values">&#182;</a></h3>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>filtered on Week_Ending_Date IS NOT NULL</strong></p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparison</th>
+      <th>median difference (days)</th>
+      <th>row_count</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Due_Date is missing</td>
+      <td>0</td>
+      <td>162066770</td>
+      <td>70.9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Week_Ending_Date &lt; Due_Date</td>
+      <td>1116</td>
+      <td>40683220</td>
+      <td>17.8</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Week_Ending_Date = Due_Date</td>
+      <td>0</td>
+      <td>105470</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Week_Ending_Date &gt; Due_Date</td>
+      <td>1373</td>
+      <td>25602660</td>
+      <td>11.2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-Cancellation-date-and-Week_Ending_Date">Compare Cancellation date and Week_Ending_Date<a class="anchor-link" href="#Compare-Cancellation-date-and-Week_Ending_Date">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="Comparison-of-column-values">Comparison of column values<a class="anchor-link" href="#Comparison-of-column-values">&#182;</a></h3>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>filtered on Week_Ending_Date IS NOT NULL</strong></p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>comparison</th>
+      <th>median difference (days)</th>
+      <th>row_count</th>
+      <th>%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CANCELLATION_DATE is missing</td>
+      <td>0</td>
+      <td>181358020</td>
+      <td>79.4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Week_Ending_Date &lt; CANCELLATION_DATE</td>
+      <td>214</td>
+      <td>844460</td>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Week_Ending_Date = CANCELLATION_DATE</td>
+      <td>0</td>
+      <td>32770</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Week_Ending_Date &gt; CANCELLATION_DATE</td>
+      <td>1833</td>
+      <td>46222860</td>
+      <td>20.2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+

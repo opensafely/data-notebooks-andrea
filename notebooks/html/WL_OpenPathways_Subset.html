@@ -1,0 +1,1693 @@
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Raw-data-checks-for-Waiting-List-Data---OpenPathways">Raw data checks for Waiting List Data - OpenPathways<a class="anchor-link" href="#Raw-data-checks-for-Waiting-List-Data---OpenPathways">&#182;</a></h1><h3 id="Tables">Tables<a class="anchor-link" href="#Tables">&#182;</a></h3><p>The waiting list data consists of 3 tables:</p>
+<ul>
+<li>WL_ClockStops</li>
+<li>WL_Diagnostics</li>
+<li>WL_OpenPathways</li>
+</ul>
+<h3 id="Background-and-documentation">Background and documentation<a class="anchor-link" href="#Background-and-documentation">&#182;</a></h3><ul>
+<li><a href="https://github.com/opensafely-core/cohort-extractor/issues/783">Github issue</a></li>
+<li><a href="https://docs.google.com/document/d/1kVF7hPhy8vv2_tA2aRv3j36Na9fD8YlE6Mj3KbUFx4o/edit">Background</a></li>
+<li><a href="https://docs.google.com/spreadsheets/d/1A1h6WGKXzh8Wy4qPMz4W2K7BrAIsSSMC/edit#gid=438381057">Schema description</a></li>
+<li><a href="https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2021/05/Recording-and-Reporting-guidance-April_2021.pdf">Recording and reporting guidelines</a></li>
+</ul>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>The waiting list dataset has been linked to patients in OpenSAFELY-TPP, covering 40% of England's population.</p>
+<p>This notebook focuses on the WL_OpenPathways table, which is expected to represent patients on a waiting list at a given point in time. A subset of the population has been generated for exploration purposes, such as determining whether key columns are consistent over the pathway.</p>
+<p>NHS England receives a weekly “Waiting List Minimum Dataset” (WL MDS) that is loaded on to the NCDR.  The waiting list data includes patients/pathways currently subject to Referral to Treatment (RTT) monitoring, as well as those not included.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<p><strong>This notebook was run on 2023-02-03
+    and reflects the dataset at this date.</strong></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-sample-of-data-based-on-Patient_ID">Create sample of data based on Patient_ID<a class="anchor-link" href="#Create-sample-of-data-based-on-Patient_ID">&#182;</a></h2><p>Select all patients where last two ID digits are 10 or 11. In theory this should represent a 1% sample.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-unique-values-in-sample">Number of unique values in sample<a class="anchor-link" href="#Number-of-unique-values-in-sample">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Patient_ID                                                     55714
+Week_Ending_Date                                                 165
+Waiting_List_Type                                                 13
+REFERRAL_REQUEST_RECEIVED_DATE                                   371
+REFERRAL_TO_TREATMENT_PERIOD_START_DATE                          615
+Current_Pathway_Period_Start_Date                                894
+Proposed_Procedure_Opcs_Code                                    1743
+Pseudo_Referral_Identifier                                    100099
+PSEUDO_PATIENT_PATHWAY_IDENTIFIER                             114764
+PSEUDO_ORGANISATION_CODE_PATIENT_PATHWAY_IDENTIFIER_ISSUER       707
+row_count                                                          7
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-Weeks-that-appear-per-unique-Patient_ID/Pathway-combination">Number of Weeks that appear per unique Patient_ID/Pathway combination<a class="anchor-link" href="#Number-of-Weeks-that-appear-per-unique-Patient_ID/Pathway-combination">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Percentiles-of-no.-weeks">Percentiles of no. weeks<a class="anchor-link" href="#Percentiles-of-no.-weeks">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>13.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>25.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>33.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>8.959038366315502
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Histogram-of-no.-weeks">Histogram of no. weeks<a class="anchor-link" href="#Histogram-of-no.-weeks">&#182;</a></h4><p>Truncate at 52 weeks</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Frequency-distribution-for-chart">Frequency distribution for chart<a class="anchor-link" href="#Frequency-distribution-for-chart">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>week_cnt</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>37570</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>9150</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>6330</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>5830</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>5180</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>4570</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>3700</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>3520</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>3150</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>3110</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>2570</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>2380</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>2270</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>2050</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>1990</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>1790</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>1550</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>1540</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>1430</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>20</td>
+      <td>1460</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>21</td>
+      <td>1180</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>22</td>
+      <td>1070</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>23</td>
+      <td>1010</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>24</td>
+      <td>970</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>25</td>
+      <td>910</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>26</td>
+      <td>880</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>27</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>28</td>
+      <td>760</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>29</td>
+      <td>710</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>30</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>31</td>
+      <td>590</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>32</td>
+      <td>550</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>33</td>
+      <td>540</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>34</td>
+      <td>500</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>35</td>
+      <td>470</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>36</td>
+      <td>430</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>37</td>
+      <td>430</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>38</td>
+      <td>400</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>39</td>
+      <td>370</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>40</td>
+      <td>330</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>41</td>
+      <td>310</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>42</td>
+      <td>280</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>43</td>
+      <td>250</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>44</td>
+      <td>240</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>45</td>
+      <td>270</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>46</td>
+      <td>220</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>47</td>
+      <td>210</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>48</td>
+      <td>210</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>49</td>
+      <td>190</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>50</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>51</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>52</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Number-of-pathways-per-Patient_ID">Number of pathways per Patient_ID<a class="anchor-link" href="#Number-of-pathways-per-Patient_ID">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Percentiles-for-no.-pathways">Percentiles for no. pathways<a class="anchor-link" href="#Percentiles-for-no.-pathways">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.1024159098251785
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-if-waiting_list_type-changes-over-patient/pathway">Check if waiting_list_type changes over patient/pathway<a class="anchor-link" href="#Check-if-waiting_list_type-changes-over-patient/pathway">&#182;</a></h3><h4 id="Percentiles-for-number-of-unique-waiting-list-type-by-pathway">Percentiles for number of unique waiting list type by pathway<a class="anchor-link" href="#Percentiles-for-number-of-unique-waiting-list-type-by-pathway">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.1375177147540423
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-if-Referral-Request-date-varies-by-patient/pathway">Check if Referral Request date varies by patient/pathway<a class="anchor-link" href="#Check-if-Referral-Request-date-varies-by-patient/pathway">&#182;</a></h3><h4 id="Percentiles-for-number-of-unique-referral-dates-by-pathway">Percentiles for number of unique referral dates by pathway<a class="anchor-link" href="#Percentiles-for-number-of-unique-referral-dates-by-pathway">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0377345604179828
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-if-RTT-date-varies-by-pathway">Check if RTT date varies by pathway<a class="anchor-link" href="#Check-if-RTT-date-varies-by-pathway">&#182;</a></h3><h4 id="Percentiles-for-number-of-unique-referral-dates-by-pathway">Percentiles for number of unique referral dates by pathway<a class="anchor-link" href="#Percentiles-for-number-of-unique-referral-dates-by-pathway">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.824022060204552
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Extract-latest-row-(latest-week)-per-patient/pathway">Extract latest row (latest week) per patient/pathway<a class="anchor-link" href="#Extract-latest-row-(latest-week)-per-patient/pathway">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Num.-unique-patient/pathway-combinations">Num. unique patient/pathway combinations<a class="anchor-link" href="#Num.-unique-patient/pathway-combinations">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>117177</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Calculate-difference-between-referral-date-and-last-date">Calculate difference between referral date and last date<a class="anchor-link" href="#Calculate-difference-between-referral-date-and-last-date">&#182;</a></h4><p>i.e. how long people have been on waiting list. Restrict to people with non-null values and non-negative values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;10th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>9.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;25th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>24.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;median&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>62.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;75th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>132.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;90th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>215.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;95th percentile&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>269.0
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>&#39;Mean&#39;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>89.36274661359201
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Histogram-of-time-between-referral-and-end-date">Histogram of time between referral and end date<a class="anchor-link" href="#Histogram-of-time-between-referral-and-end-date">&#182;</a></h4><p>Note: display truncated at 52 weeks</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Frequency-distribution-for-chart">Frequency distribution for chart<a class="anchor-link" href="#Frequency-distribution-for-chart">&#182;</a></h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Diff</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>1530</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>1780</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>1820</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>1950</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>1810</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>1650</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>10</td>
+      <td>1780</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>11</td>
+      <td>1740</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>12</td>
+      <td>1640</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>13</td>
+      <td>1250</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>14</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>15</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>16</td>
+      <td>1050</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>17</td>
+      <td>1320</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>18</td>
+      <td>1390</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>19</td>
+      <td>1300</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>20</td>
+      <td>1260</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>21</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>22</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>23</td>
+      <td>1090</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>24</td>
+      <td>1190</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>25</td>
+      <td>1200</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>26</td>
+      <td>1140</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>27</td>
+      <td>1040</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>28</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>29</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>30</td>
+      <td>1020</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>31</td>
+      <td>1080</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>32</td>
+      <td>1080</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>33</td>
+      <td>1080</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>34</td>
+      <td>930</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>35</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>36</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>37</td>
+      <td>860</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>38</td>
+      <td>990</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>39</td>
+      <td>980</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>40</td>
+      <td>990</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>41</td>
+      <td>830</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>42</td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>43</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>44</td>
+      <td>820</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>45</td>
+      <td>860</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>46</td>
+      <td>830</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>47</td>
+      <td>830</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>48</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>49</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>50</td>
+      <td>60</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>51</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>52</td>
+      <td>870</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+
