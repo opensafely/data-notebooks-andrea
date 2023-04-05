@@ -5,26 +5,3 @@ expectations:
 
 actions:
 
-    clockstops_explore:
-        run: jupyter:latest jupyter nbconvert /workspace/notebooks/WL_ClockStops_Explore.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        outputs:
-            moderately_sensitive:
-                html: output/WL_ClockStops_Explore.html
-                
-    clockstops_subset:
-        run: jupyter:latest jupyter nbconvert /workspace/notebooks/WL_ClockStops_Subset.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        outputs:
-            moderately_sensitive:
-                html: output/WL_ClockStops_Subset.html
-                
-    openpathways_explore:
-        run: jupyter:latest jupyter nbconvert /workspace/notebooks/WL_OpenPathways_Explore.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        outputs:
-            moderately_sensitive:
-                html: output/WL_OpenPathways_Explore.html
-    
-    openpathways_subset:
-        run: jupyter:latest jupyter nbconvert /workspace/notebooks/WL_OpenPathways_Subset.ipynb --execute --to html --output-dir=/workspace/output --ExecutePreprocessor.timeout=86400 --no-input
-        outputs:
-            moderately_sensitive:
-                html: output/WL_OpenPathways_Subset.html
